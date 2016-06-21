@@ -18,9 +18,17 @@ def print_header
 end
 
  def print(names)
+
 #exercise 1, 2, & 3 completed in the below code block:
-names.each.with_index(1){|student, index| puts "#{index}: #{student[:name]} (#{student[:cohort]} cohort)" if student[:name].split('').shift == "H" && student[:name].length < 12}
- end
+#names.each.with_index(1){|student, index| puts "#{index}: #{student[:name]} (#{student[:cohort]} cohort)" if student[:name].split('').shift == "H" && student[:name].length < 12}
+
+#exercise 4 below:
+integer = 0
+until integer == names.count
+puts "#{names[integer][:name]} (#{names[integer][:cohort]} cohort)"
+integer += 1
+end
+end
 
  def print_footer(names)
  puts  "Overall, we have #{names.count} great students"
