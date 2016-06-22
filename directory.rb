@@ -2,30 +2,30 @@
 def student_input
 puts "Please enter the name of students"
 puts "To finish, just press enter twice"
-name = gets.chomp
+name = gets.gsub("\n", '')
 students = []
 cohort_by_months = []
 months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 while !name.empty? do
 puts "Please enter the student's cohort"
-cohort = gets.chomp
+cohort = gets.gsub("\n", '')
 cohort = Time.now.strftime("%B") if cohort.empty?
 until months.include?(cohort.capitalize)
   puts "Spelling error, please type cohort again!"
-  cohort = gets.chomp
+  cohort = gets.gsub("\n", '')
 end
 puts "Please enter the students hobbies"
-hobbies = gets.chomp
+hobbies = gets.gsub("\n", '')
 hobbies = "undisclosed" if hobbies.empty?
 puts "Please enter the students place of birth"
-pob = gets.chomp
+pob = gets.gsub("\n", '')
 pob = "undisclosed" if pob.empty?
 puts "Please enter the students height"
-height = gets.chomp
+height = gets.gsub("\n", '')
 height = "undisclosed" if height.empty?
   students << {name: name, cohort: cohort, hobbies: hobbies, pob: pob, height: height}
   puts students.count > 1 ? "Now we have #{students.count} students" : "Now we have #{students.count} student"
-  name = gets.chomp
+  name = gets.gsub("\n", '')
 end
 x = 0
 while x < months.count
@@ -54,7 +54,8 @@ end
 end
 
  def print_footer(names)
- puts  "Overall, we have #{names.count} great students".center(500)
+   puts names.count > 1 ? "Overall, we have #{names.count} great students".center(500) : "Overall, we have #{names.count} great student".center(500)
+ #puts  "Overall, we have #{names.count} great students".center(500)
 end
 
 students = student_input
