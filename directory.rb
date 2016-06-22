@@ -5,7 +5,16 @@ puts "To finish, just press enter twice"
 name = gets.chomp
 students = []
 while !name.empty? do
-  students << {name: name, cohort: :november}
+puts "Please enter the students hobbies"
+hobbies = gets.chomp
+hobbies = "undisclosed" if hobbies.empty?
+puts "Please enter the students place of birth"
+pob = gets.chomp
+pob = "undisclosed" if pob.empty?
+puts "Please enter the students height"
+height = gets.chomp
+height = "undisclosed" if height.empty?
+  students << {name: name, cohort: :november, hobbies: hobbies, pob: pob, height: height}
   puts "Now we have #{students.count} students"
   name = gets.chomp
 end
@@ -23,10 +32,10 @@ end
 #names.each.with_index(1){|student, index| puts "#{index}: #{student[:name]} (#{student[:cohort]} cohort)" if student[:name].split('').shift == "H" && student[:name].length < 12}
 
 #exercise 4 below:
-integer = 0
-until integer == names.count
-puts "#{names[integer][:name]} (#{names[integer][:cohort]} cohort)"
-integer += 1
+int = 0
+until int == names.count
+puts "#{names[int][:name]} (#{names[int][:cohort]} cohort), Hobbies: #{names[int][:hobbies]}, Born: #{names[int][:pob]}, Height: #{names[int][:height]}"
+int += 1
 end
 end
 
