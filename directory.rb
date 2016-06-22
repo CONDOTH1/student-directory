@@ -22,8 +22,8 @@ students
 end
 
 def print_header
- puts "The students of Villains Academy"
- puts "-----------"
+ puts "The students of Villains Academy".center(500)
+ puts "-----------".center(500)
 end
 
  def print(names)
@@ -34,13 +34,13 @@ end
 #exercise 4 below:
 int = 0
 until int == names.count
-puts "#{names[int][:name]} (#{names[int][:cohort]} cohort), Hobbies: #{names[int][:hobbies]}, Born: #{names[int][:pob]}, Height: #{names[int][:height]}"
+puts "#{names[int][:name]} (#{names[int][:cohort]} cohort), Hobbies: #{names[int][:hobbies]}, Born: #{names[int][:pob]}, Height: #{names[int][:height]}".center(500)
 int += 1
 end
 end
 
  def print_footer(names)
- puts  "Overall, we have #{names.count} great students"
+ puts  "Overall, we have #{names.count} great students".center(500)
 end
 
 students = student_input
