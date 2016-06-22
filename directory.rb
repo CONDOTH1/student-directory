@@ -4,7 +4,15 @@ puts "Please enter the name of students"
 puts "To finish, just press enter twice"
 name = gets.chomp
 students = []
+months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 while !name.empty? do
+puts "Please enter the students cohort"
+cohort = gets.chomp.to_sym
+cohort = Time.now.strftime("%B") if cohort.empty?
+until months.include?(cohort.capitalize)
+  puts "Spelling error, please type cohort again!"
+  cohort = gets.chomp
+end
 puts "Please enter the students hobbies"
 hobbies = gets.chomp
 hobbies = "undisclosed" if hobbies.empty?
@@ -14,7 +22,7 @@ pob = "undisclosed" if pob.empty?
 puts "Please enter the students height"
 height = gets.chomp
 height = "undisclosed" if height.empty?
-  students << {name: name, cohort: :november, hobbies: hobbies, pob: pob, height: height}
+  students << {name: name, cohort: cohort, hobbies: hobbies, pob: pob, height: height}
   puts "Now we have #{students.count} students"
   name = gets.chomp
 end
