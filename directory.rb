@@ -4,10 +4,11 @@ puts "Please enter the name of students"
 puts "To finish, just press enter twice"
 name = gets.chomp
 students = []
+cohort_by_months = []
 months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 while !name.empty? do
 puts "Please enter the students cohort"
-cohort = gets.chomp.to_sym
+cohort = gets.chomp
 cohort = Time.now.strftime("%B") if cohort.empty?
 until months.include?(cohort.capitalize)
   puts "Spelling error, please type cohort again!"
@@ -26,7 +27,12 @@ height = "undisclosed" if height.empty?
   puts "Now we have #{students.count} students"
   name = gets.chomp
 end
-students
+x = 0
+while x < months.count
+students.map{|hash| cohort_by_months << hash if hash[:cohort] == months[x]}
+x += 1
+end
+cohort_by_months
 end
 
 def print_header
