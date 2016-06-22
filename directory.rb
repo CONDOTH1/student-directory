@@ -7,7 +7,7 @@ students = []
 cohort_by_months = []
 months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 while !name.empty? do
-puts "Please enter the students cohort"
+puts "Please enter the student's cohort"
 cohort = gets.chomp
 cohort = Time.now.strftime("%B") if cohort.empty?
 until months.include?(cohort.capitalize)
@@ -24,7 +24,7 @@ puts "Please enter the students height"
 height = gets.chomp
 height = "undisclosed" if height.empty?
   students << {name: name, cohort: cohort, hobbies: hobbies, pob: pob, height: height}
-  puts "Now we have #{students.count} students"
+  puts students.count > 1 ? "Now we have #{students.count} students" : "Now we have #{students.count} student"
   name = gets.chomp
 end
 x = 0
