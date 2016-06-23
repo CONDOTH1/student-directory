@@ -3,30 +3,30 @@
 def student_input
 puts "Please enter the name of students"
 puts "To finish, just press enter twice"
-name = gets.gsub("\n", '')
+name = STDIN.gets.gsub("\n", '')
 #students = []
 cohort_by_months = []
 months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 while !name.empty? do
 puts "Please enter the student's cohort"
-cohort = gets.gsub("\n", '')
+cohort = STDIN.gets.gsub("\n", '')
 cohort = Time.now.strftime("%B") if cohort.empty?
 until months.include?(cohort.capitalize)
   puts "Spelling error, please type cohort again!"
-  cohort = gets.gsub("\n", '')
+  cohort = STDIN.gets.gsub("\n", '')
 end
 puts "Please enter the students hobbies"
-hobbies = gets.gsub("\n", '')
+hobbies = STDIN.gets.gsub("\n", '')
 hobbies = "undisclosed" if hobbies.empty?
 puts "Please enter the students place of birth"
-pob = gets.gsub("\n", '')
+pob = STDIN.gets.gsub("\n", '')
 pob = "undisclosed" if pob.empty?
 puts "Please enter the students height"
-height = gets.gsub("\n", '')
+height = STDIN.gets.gsub("\n", '')
 height = "undisclosed" if height.empty?
   @students << {name: name, cohort: cohort, hobbies: hobbies, pob: pob, height: height}
   puts @students.count > 1 ? "Now we have #{@students.count} students" : "Now we have #{@students.count} student"
-  name = gets.gsub("\n", '')
+  name = STDIN.gets.gsub("\n", '')
 end
 x = 0
 while x < months.count
@@ -63,7 +63,7 @@ def print_menu
     puts "1. Input the students"
     puts "2. Shows the students"
     puts "3. Save students list"
-    puts "4. Loaat students list"
+    puts "4. Load students list"
     puts "9. Exit"
 end
 
@@ -93,7 +93,7 @@ end
 def interactive_menu
   loop do
     print_menu
-    process(gets.chomp)
+    process(STDIN.gets.chomp)
   end
 end
 
@@ -107,8 +107,8 @@ def save_students
     file.close
   end
 
-  def load_students
-    file = File.open("students.csv", "r")
+  def load_students(filename = "students.csv")
+    file = File.open(filename, "r")
     file.readlines.each do |line|
       name, cohort, hobbies, pob, height = line.chomp.split(',')
       @students << {name: name, cohort: cohort, hobbies: hobbies, pob:pob, height:height}
@@ -116,5 +116,17 @@ def save_students
     file.close
   end
 
+  def try_load_students
+    filename = ARGV.first
+    return if filename.nil?
+    if File.exists?(filename)
+      load_students(filename)
+      puts "Loaded #{@students.count} from #{filename}"
+    else
+      puts "Sorry, #{filename} doesn't exits."
+      exits
+    end
+  end
 
+puts try_load_students
 puts interactive_menu
