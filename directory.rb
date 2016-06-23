@@ -58,7 +58,26 @@ end
  #puts  "Overall, we have #{names.count} great students".center(500)
 end
 
-students = student_input
-print_header
-print(students)
-print_footer(students)
+def interactive_menu
+  students = []
+  loop do
+    puts "1. Input the students"
+    puts "2. Shows the students"
+    puts "9. Exit"
+    selection = gets.chomp
+    case selection
+    when "1"
+      students = student_input
+    when "2"
+      print_header
+      print(students)
+      print_footer(students)
+    when "9"
+      exit
+    else
+      puts "I don't know what you meant, try again!"
+  end
+  end
+end
+
+puts interactive_menu
