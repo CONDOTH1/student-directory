@@ -24,7 +24,8 @@ pob = "undisclosed" if pob.empty?
 puts "Please enter the students height"
 height = STDIN.gets.gsub("\n", '')
 height = "undisclosed" if height.empty?
-  @students << {name: name, cohort: cohort, hobbies: hobbies, pob: pob, height: height}
+  students_capture(name, cohort, hobbies, pob, height)
+  #@students << {name: name, cohort: cohort, hobbies: hobbies, pob: pob, height: height}
   puts @students.count > 1 ? "Now we have #{@students.count} students" : "Now we have #{@students.count} student"
   name = STDIN.gets.gsub("\n", '')
 end
@@ -107,11 +108,17 @@ def save_students
     file.close
   end
 
+def students_capture(name, cohort, hobbies, pob, height)
+  @students << {name: name, cohort: cohort, hobbies: hobbies, pob:pob, height:height}
+end
+
+
   def load_students(filename = "students.csv")
     file = File.open(filename, "r")
     file.readlines.each do |line|
       name, cohort, hobbies, pob, height = line.chomp.split(',')
-      @students << {name: name, cohort: cohort, hobbies: hobbies, pob:pob, height:height}
+      students_capture(name, cohort, hobbies, pob, height)
+      #@students << {name: name, cohort: cohort, hobbies: hobbies, pob:pob, height:height}
     end
     file.close
   end
