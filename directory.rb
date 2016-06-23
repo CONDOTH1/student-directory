@@ -1,9 +1,10 @@
+@students = []
 
 def student_input
 puts "Please enter the name of students"
 puts "To finish, just press enter twice"
 name = gets.gsub("\n", '')
-students = []
+#students = []
 cohort_by_months = []
 months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 while !name.empty? do
@@ -23,16 +24,16 @@ pob = "undisclosed" if pob.empty?
 puts "Please enter the students height"
 height = gets.gsub("\n", '')
 height = "undisclosed" if height.empty?
-  students << {name: name, cohort: cohort, hobbies: hobbies, pob: pob, height: height}
-  puts students.count > 1 ? "Now we have #{students.count} students" : "Now we have #{students.count} student"
+  @students << {name: name, cohort: cohort, hobbies: hobbies, pob: pob, height: height}
+  puts @students.count > 1 ? "Now we have #{@students.count} students" : "Now we have #{@students.count} student"
   name = gets.gsub("\n", '')
 end
 x = 0
 while x < months.count
-students.map{|hash| cohort_by_months << hash if hash[:cohort] == months[x]}
+@students.map{|hash| cohort_by_months << hash if hash[:cohort] == months[x]}
 x += 1
 end
-cohort_by_months
+@students = cohort_by_months
 end
 
 def print_header
@@ -40,44 +41,55 @@ def print_header
  puts "-----------".center(500)
 end
 
- def print(names)
+ def print_students_list
 
 #exercise 1, 2, & 3 completed in the below code block:
 #names.each.with_index(1){|student, index| puts "#{index}: #{student[:name]} (#{student[:cohort]} cohort)" if student[:name].split('').shift == "H" && student[:name].length < 12}
 
 #exercise 4 below:
 int = 0
-until int == names.count
-puts "#{names[int][:name]} (#{names[int][:cohort]} cohort), Hobbies: #{names[int][:hobbies]}, Born: #{names[int][:pob]}, Height: #{names[int][:height]}".center(500)
+until int == @students.count
+puts "#{@students[int][:name]} (#{@students[int][:cohort]} cohort), Hobbies: #{@students[int][:hobbies]}, Born: #{@students[int][:pob]}, Height: #{@students[int][:height]}".center(500)
 int += 1
 end
 end
 
- def print_footer(names)
-   puts names.count > 1 ? "Overall, we have #{names.count} great students".center(500) : "Overall, we have #{names.count} great student".center(500)
+ def print_footer
+   puts @students.count > 1 ? "Overall, we have #{@students.count} great students".center(500) : "Overall, we have #{@students.count} great student".center(500)
  #puts  "Overall, we have #{names.count} great students".center(500)
 end
 
-def interactive_menu
-  students = []
-  loop do
+def print_menu
     puts "1. Input the students"
     puts "2. Shows the students"
     puts "9. Exit"
-    selection = gets.chomp
-    case selection
-    when "1"
-      students = student_input
-    when "2"
-      print_header
-      print(students)
-      print_footer(students)
-    when "9"
-      exit
-    else
-      puts "I don't know what you meant, try again!"
-  end
+end
+
+def process(selection)
+  case selection
+  when "1"
+    student_input
+  when "2"
+    show_students
+  when "9"
+    exit
+  else
+    puts "I don't know what you meant, try again!"
+end
+end
+
+def show_students
+  print_header
+  print_students_list
+  print_footer
+end
+
+def interactive_menu
+  loop do
+    print_menu
+    process(gets.chomp)
   end
 end
+
 
 puts interactive_menu
