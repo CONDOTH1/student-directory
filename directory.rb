@@ -119,7 +119,10 @@ def interactive_menu
 end
 
 def save_students
-  file = File.open("students.csv", "w")
+  puts "Please provide filename below, otherwise 'students.csv' will be used."
+  filename = STDIN.gets.gsub("\n", '')
+  filename = "students.csv" if filename.empty?
+  file = File.open(filename, "w")
     @students.each do |student|
       student_data = [student[:name], student[:cohort], student[:hobbies], student[:pob], student[:height]]
       csv_line = student_data.join(',')
