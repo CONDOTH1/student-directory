@@ -122,13 +122,13 @@ def save_students
   puts "Please provide filename below, otherwise 'students.csv' will be used."
   filename = STDIN.gets.gsub("\n", '')
   filename = "students.csv" if filename.empty?
-  file = File.open(filename, "w")
+  File.open(filename, "w") do |f|
     @students.each do |student|
       student_data = [student[:name], student[:cohort], student[:hobbies], student[:pob], student[:height]]
       csv_line = student_data.join(',')
-      file.puts csv_line
+      f.puts csv_line
     end
-    file.close
+  end
     puts "Your data is saved, thank you!"
   end
 
@@ -138,12 +138,12 @@ end
 
 
   def load_students(filename = "students.csv")
-    file = File.open(filename, "r")
-    file.readlines.each do |line|
+    File.open(filename, "r") do |f|
+    f.readlines.each do |line|
       name, cohort, hobbies, pob, height = line.chomp.split(',')
       students_capture(name, cohort, hobbies, pob, height)
     end
-    file.close
+  end
     puts "Files loaded, thank you!"
   end
 
