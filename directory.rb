@@ -9,9 +9,19 @@ def student_input
   pob = student_details("pob")
   height = student_details("height")
   students_capture(name, cohort, hobbies, pob, height)
+  confirmation = input_check
+  return if confirmation == "n"
   puts @students.count > 1 ? "Now we have #{@students.count} students" : "Now we have #{@students.count} student"
   cohort_by_months = sort_by_cohort
   @students = cohort_by_months
+end
+
+def input_check
+  puts "Thank you for your input, please check the information below"
+  puts "#{@students[(@students.count-1)]}"
+  puts "Are you happy with this data? (y/n)"
+  puts "If yes your data will be added, otherwise you will be redirected to the main menu"
+  confirmation = STDIN.gets.gsub("\n", '')
 end
 
 def student_name
@@ -116,6 +126,7 @@ def save_students
       file.puts csv_line
     end
     file.close
+    puts "Your data is saved, thank you!"
   end
 
 def students_capture(name, cohort, hobbies, pob, height)
@@ -130,6 +141,7 @@ end
       students_capture(name, cohort, hobbies, pob, height)
     end
     file.close
+    puts "Files loaded, thank you!"
   end
 
   def try_load_students
