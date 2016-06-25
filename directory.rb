@@ -1,6 +1,6 @@
 @students = []
 @months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-
+require 'csv'
 
 def student_input
   name = student_name
@@ -8,19 +8,19 @@ def student_input
   hobbies = student_details("hobbies")
   pob = student_details("pob")
   height = student_details("height")
+  confirmation = input_check(name, cohort, hobbies, pob, height)
+  return if confirmation == 'n'
   students_capture(name, cohort, hobbies, pob, height)
-  confirmation = input_check
-  return if confirmation == "n"
   puts @students.count > 1 ? "Now we have #{@students.count} students" : "Now we have #{@students.count} student"
   cohort_by_months = sort_by_cohort
   @students = cohort_by_months
 end
 
-def input_check
-  puts "Thank you for your input, please check the information below"
-  puts "#{@students[(@students.count-1)]}"
+def input_check(name, cohort, hobbies, pob, height)
+  puts "Thank you for your input, please check the information below:"
+  puts "-----Name: #{name}, Cohort: #{cohort}, Hobbies: #{hobbies}, Place of Birth: #{pob}, Height: #{height}-----".center(500)
   puts "Are you happy with this data? (y/n)"
-  puts "If yes your data will be added, otherwise you will be redirected to the main menu"
+  puts "If yes your data will be added, otherwise you will be redirected to the main menu."
   confirmation = STDIN.gets.gsub("\n", '')
 end
 
@@ -63,6 +63,10 @@ def sort_by_cohort
   cohort_by_months
 end
 
+def students_capture(name, cohort, hobbies, pob, height)
+  @students << {name: name, cohort: cohort, hobbies: hobbies, pob: pob, height: height}
+end
+
 def print_header
  puts "The students of Villains Academy".center(500)
  puts "-----------".center(500)
@@ -85,6 +89,7 @@ def print_menu
     puts "2. Shows the students"
     puts "3. Save students list"
     puts "4. Load students list"
+    puts "5. Appends students from file"
     puts "9. Exit"
 end
 
@@ -98,6 +103,8 @@ def process(selection)
     save_students
   when "4"
     load_students
+  when "5"
+    append_students
   when "9"
     exit
   else
@@ -122,28 +129,29 @@ def save_students
   puts "Please provide filename below, otherwise 'students.csv' will be used."
   filename = STDIN.gets.gsub("\n", '')
   filename = "students.csv" if filename.empty?
-  File.open(filename, "w") do |f|
-    @students.each do |student|
-      student_data = [student[:name], student[:cohort], student[:hobbies], student[:pob], student[:height]]
-      csv_line = student_data.join(',')
-      f.puts csv_line
-    end
+    CSV.open(filename, "w") do |csv|
+        @students.each do |student|
+          csv << [student[:name], student[:cohort], student[:hobbies], student[:pob], student[:height]]
+        end
   end
     puts "Your data is saved, thank you!"
   end
 
-def students_capture(name, cohort, hobbies, pob, height)
-  @students << {name: name, cohort: cohort, hobbies: hobbies, pob:pob, height:height}
-end
-
-
   def load_students(filename = "students.csv")
-    File.open(filename, "r") do |f|
-    f.readlines.each do |line|
-      name, cohort, hobbies, pob, height = line.chomp.split(',')
-      students_capture(name, cohort, hobbies, pob, height)
+  @students = []
+  CSV.open(filename, :row_sep => :auto, :col_sep => ",") do |csv|
+      csv.each { |a,b,c,d,e| @students <<  {name: a,cohort: b, hobbies: c, pob: d, height: e} }
     end
+    puts "Files loaded, thank you!"
   end
+
+  def append_students
+  puts "Please provide filename below, otherwise 'students.csv' will be used."
+  filename = STDIN.gets.gsub("\n", '')
+  filename = "students.csv" if filename.empty?
+  CSV.open(filename, :row_sep => :auto, :col_sep => ",") do |csv|
+      csv.each { |a,b,c,d,e| @students <<  {name: a,cohort: b, hobbies: c, pob: d, height: e} }
+    end
     puts "Files loaded, thank you!"
   end
 
