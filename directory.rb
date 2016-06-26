@@ -90,6 +90,7 @@ def print_menu
     puts "3. Save students list"
     puts "4. Load students list"
     puts "5. Appends students from file"
+    puts "6. Print source code"
     puts "9. Exit"
 end
 
@@ -105,6 +106,8 @@ def process(selection)
     load_students
   when "5"
     append_students
+  when "6"
+    method
   when "9"
     exit
   else
@@ -161,5 +164,9 @@ def save_students
       puts "Loaded #{@students.count} from #{filename}"
   end
 
-puts try_load_students
-puts interactive_menu
+  def method;"def method;;end;puts method()[0, 11] + 34.chr + method + 34.chr + method()[11, method.length-11]";end;puts method()[0, 11] + 34.chr + method + 34.chr + method()[11, method.length-11]
+
+
+
+#puts try_load_students
+#puts interactive_menu
